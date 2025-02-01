@@ -1,44 +1,40 @@
+import Colors from "@/constants/Colors";
+import { themeAtom } from "@/store/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import React from "react";
-
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useAtomValue } from "jotai";
 
 export default function TabLayout() {
-	const colorScheme = useColorScheme();
+  const theme = useAtomValue(themeAtom);
 
-	return (
-		<Tabs
-			screenOptions={{
-				tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-				headerShown: false,
-			}}
-		>
-			<Tabs.Screen
-				name="index"
-				options={{
-					title: "Home",
-					tabBarIcon: ({ color, focused }) => (
-						<TabBarIcon
-							name={focused ? "home" : "home-outline"}
-							color={color}
-						/>
-					),
-				}}
-			/>
-			<Tabs.Screen
-				name="search"
-				options={{
-					title: "Search",
-					tabBarIcon: ({ color, focused }) => (
-						<TabBarIcon
-							name={focused ? "search" : "search-outline"}
-							color={color}
-						/>
-					),
-				}}
-			/>
-		</Tabs>
-	);
+  return (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: Colors[theme].tint,
+        tabBarStyle: {
+          backgroundColor: Colors[theme].background,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Buscar",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="search-outline" size={28} color={color} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
 }
